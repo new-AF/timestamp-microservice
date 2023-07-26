@@ -21,7 +21,16 @@ body {
     justify-content: center;
 }
 #header {
+    --gap-top-bottom: 1rem;
     grid-area: header;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--gap-top-bottom);
+    justify-items: center;
+}
+#header-img {
+    height: 100%;
 }
 #footer {
     grid-area: footer;

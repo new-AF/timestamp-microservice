@@ -7,6 +7,7 @@ function App() {
         <>
             <header id="header" className="global-text-center">
                 <h1 id="header-h1">Timestamp (micro)service</h1>
+                <img id="header-img" src={logo} />
             </header>
 
             <footer id="footer" className="global-text-center">
