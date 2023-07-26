@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+.global-text-center {
+    text-align: center;
+}
+body {
+    margin: 0;
+}
+#root {
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    background-color: aliceblue;
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-areas:
+        "header"
+        "footer";
+    align-content: space-between;
+    justify-content: center;
+}
+#header {
+    grid-area: header;
+}
+#footer {
+    grid-area: footer;
+}
+#footer-small-by {
+    margin-right: 1ch;
+}
