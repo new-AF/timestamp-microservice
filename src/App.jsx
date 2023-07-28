@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { prettyPrintJson } from "pretty-print-json";
+import { setInput } from "./timeSlice";
 
 import logo from "/gears-solid.svg";
 import serverIconPath from "./assets/server-solid.svg";
 
 import "./App.css";
-
 import store from "./store";
 
 function App() {
@@ -14,6 +14,22 @@ function App() {
     const [val, setVal] = useState(1);
     const [res, setRes] = useState("");
     const state = useSelector((state) => state["time"]);
+    function onChange(event) {
+        const text = event.target.value;
+        dispatch(setInput(text));
+    }
+    /* it seems <li> elements do not handle onClick properly */
+    function onLiClick(event) {
+        /* from testing event.currentTarget *is* li */
+        const target = event.target;
+        const currentTarget = event.currentTarget;
+        // console.log({ target, currentTarget});
+        const children = currentTarget.children;
+        // return;
+        const code = children[0];
+        const text = code.textContent;
+        dispatch(setInput(text));
+    }
     useEffect(() => {
         async function call() {
             const val = await fetch("http://localhost:3000/api/open");
@@ -41,15 +57,19 @@ function App() {
                     >
                         Request
                     </h3>
-                    {/* <code id="time-send-val">{state.request}</code> */}
-                    <input id="time-send-input" />
+                    {/* <code id="time-send-val">{state.input}</code> */}
+                    <input
+                        id="time-send-input"
+                        value={state.input}
+                        onChange={onChange}
+                    />
                     {/* usage */}
                     <h4 id="time-send-example">Select example usage</h4>
                     <ul id="time-send-list">
-                        <li className="time-send-list-item">
+                        <li className="time-send-list-item" onClick={onLiClick}>
                             <code>/api/1690402538837</code>
                         </li>
-                        <li className="time-send-list-item">
+                        <li className="time-send-list-item" onClick={onLiClick}>
                             <code>/api/Wed, 26 Jul 2023 20:15:38 GMT</code>
                         </li>
                     </ul>

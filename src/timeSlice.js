@@ -17,18 +17,21 @@ const slice = createSlice({
     name: "time",
     initialState: {
         example: true,
-        request: "/api/" + timestampStr,
+        input: "/api/" + timestampStr,
         json: json,
     },
     reducers: {
+        setInput: (state, action) => {
+            state.input = action.payload;
+        },
         setRequestAndJSON: (state, action) => {
             const [input, json] = action.payload;
-            state.request = "/api/" + input;
+            state.input = "/api/" + input;
             state.json = JSON.stringify(json);
             // console.log("---new state", state);
         },
     },
 });
 
-export const { setRequestAndJSON } = slice.actions;
+export const { setRequestAndJSON, setInput } = slice.actions;
 export default slice.reducer;
