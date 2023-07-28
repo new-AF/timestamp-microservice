@@ -8,6 +8,8 @@ import serverIconPath from "./assets/server-solid.svg";
 
 import "./App.css";
 import store from "./store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { callServer } from "./timeSlice";
 
 function App() {
     const dispatch = useDispatch();
@@ -30,6 +32,11 @@ function App() {
         const text = code.textContent;
         dispatch(setInput(text));
     }
+    /* submit button */
+    function submitButtonOnClick(event) {
+        dispatch(callServer(state.input));
+    }
+
     useEffect(() => {
         async function call() {
             const val = await fetch("http://localhost:3000/api/open");
@@ -64,7 +71,7 @@ function App() {
                         onChange={onChange}
                     />
                     {/* usage */}
-                    <h4 id="time-send-example">Select example usage</h4>
+                    <h4 id="time-send-example">Click example usage</h4>
                     <ul id="time-send-list">
                         <li className="time-send-list-item" onClick={onLiClick}>
                             <code>/api/1690402538837</code>
@@ -74,7 +81,9 @@ function App() {
                         </li>
                     </ul>
 
-                    <button id="time-send-submit">Send Request</button>
+                    <button id="time-send-submit" onClick={submitButtonOnClick}>
+                        Send Request
+                    </button>
                 </article>
 
                 {/* hr1 */}

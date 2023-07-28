@@ -6,12 +6,19 @@ S module, which may not support all module.exports as named exports.
 
 */
 import * as toolkitRaw from "@reduxjs/toolkit";
-const { createSlice } = toolkitRaw.default ?? toolkitRaw;
+const { createSlice, createAsyncThunk } = toolkitRaw.default ?? toolkitRaw;
 
 import { getResponse } from "../server/convert-times.js";
 
 const timestampStr = "1690452662026";
 const json = getResponse(timestampStr);
+
+const callServer = createAsyncThunk("time/callServer", async (str) => {
+    /* str is /api/...  */
+    const res = await fetch(`http://localhost:3000${str}`);
+    const json = res.json();
+    return json;
+});
 
 const slice = createSlice({
     name: "time",
@@ -31,7 +38,14 @@ const slice = createSlice({
             // console.log("---new state", state);
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase(callServer.fulfilled, (state, action) => {
+            const json = action.payload;
+            state.json = json;
+        });
+    },
 });
 
 export const { setRequestAndJSON, setInput } = slice.actions;
+export { callServer };
 export default slice.reducer;
