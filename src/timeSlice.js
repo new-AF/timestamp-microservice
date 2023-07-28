@@ -1,27 +1,34 @@
+/* workaround for node.js error
 import { createSlice } from "@reduxjs/toolkit";
-import { getTimestamp, getUTC, makeJSON } from "../server/convert-times.js";
+         ^^^^^^^^^^^
+SyntaxError: Named export 'createSlice' not found. The requested module '@reduxjs/toolkit' is a CommonJ
+S module, which may not support all module.exports as named exports.
 
-const timestamp = new Date().getTime();
-const utc = getUTC(timestamp);
-const json = makeJSON(timestamp, utc);
+*/
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createSlice } = toolkitRaw.default ?? toolkitRaw;
 
-const initialState = {
-    example: true,
-    request: "/api/" + timestamp,
-    json: json,
-};
+import { getResponse } from "../server/convert-times.js";
+
+const timestampStr = "1690452662026";
+const json = getResponse(timestampStr);
 
 const slice = createSlice({
     name: "time",
-    initialState: initialState,
+    initialState: {
+        example: true,
+        request: "/api/" + timestampStr,
+        json: json,
+    },
     reducers: {
-        setInput: (state, action) => {
-            const text = action.payload;
-            state.input = text;
-            state.output = marked.parse(text);
+        setRequestAndJSON: (state, action) => {
+            const [input, json] = action.payload;
+            state.request = "/api/" + input;
+            state.json = JSON.stringify(json);
+            // console.log("---new state", state);
         },
     },
 });
 
-export const { setInput } = slice.actions;
+export const { setRequestAndJSON } = slice.actions;
 export default slice.reducer;
