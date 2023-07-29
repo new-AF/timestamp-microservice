@@ -1,9 +1,6 @@
 import express from "express";
 import { getResponse } from "./convert-times.js";
 
-import store from "../src/store.js";
-import { setRequestAndJSON } from "../src/timeSlice.js";
-
 import cors from "cors";
 const corsOptions = {
     origin: "*",
@@ -11,7 +8,10 @@ const corsOptions = {
     optionSuccessStatus: 200,
 };
 
+const port = process.env.PORT || 3000;
+
 const app = express();
+
 app.use(cors(corsOptions)); // Use this after the variable declaration
 
 app.get("/api/open", function (req, res) {
@@ -32,7 +32,6 @@ app.get("/api/:date", function (req, res) {
 
     /* if path is missing date in /api/date */
     if (paramsObj.hasOwnProperty("date") === false) {
-        store.dispatch(setRequestAndJSON(["", errorJSON]));
         return res.json(errorJSON);
     }
 
@@ -43,8 +42,7 @@ app.get("/api/:date", function (req, res) {
     const str = paramsObj.date;
 
     const response = getResponse(str);
-    store.dispatch(setRequestAndJSON([str, response]));
     res.json(response);
 });
 
-app.listen(3000, () => console.log("server is listening on 3000"));
+app.listen(port, () => console.log("server is listening on 3000"));
