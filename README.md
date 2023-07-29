@@ -26,7 +26,7 @@ Example:
 
 # Run the App Online
 
-**[Run the App Online](https://timestamp-microservice-t7m9.onrender.com/)**
+**[Run the App Online](https://timestamp-microservice-t7m9.onrender.com/)** (May take few seconds to spin up the inactive server)
 
 # Build and Run App Locally
 
@@ -34,9 +34,9 @@ Example:
 
 | Program         | Download link                                                    | Note                                                                                                                                                                                                          |
 | --------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Node.js         | [https://nodejs.org/en/download](https://nodejs.org/en/download) | also installs `npm` package manager                                                                                                                                                                           |
+| Node.js         | [https://nodejs.org/en/download](https://nodejs.org/en/download) | Also installs `npm` package manager                                                                                                                                                                           |
 | Git             | [https://git-scm.com/downloads](https://git-scm.com/downloads)   |
-| (Optional) pnpm | [https://pnpm.io/installation](https://pnpm.io/installation)     | this is a different package manager used for reduced disk space when installing below packages.<br/>This is optional, the builtin `npm` will work too with below commands,<br/>Just replace `pnpm` with `npm` |
+| (Optional) pnpm | [https://pnpm.io/installation](https://pnpm.io/installation)     | This is a different package manager used for reduced disk space when installing below packages.<br/>This is optional, the builtin `npm` will work too with below commands,<br/>Just replace `pnpm` with `npm` |
 
 ## Dependencies
 
