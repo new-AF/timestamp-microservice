@@ -2,32 +2,53 @@ import express from "express";
 import { getResponse } from "./convert-times.js";
 
 import cors from "cors";
+
+/* workaround for no __dirname in when ES modules*/
+/* for { fileURLToPath } */
+import url from "url";
+/* for { dirname, join } */
+import path from "path";
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const port = process.env.PORT || 3000;
+const app = express();
+
+/* "dist" dir path */
+const distPath = path.join(__dirname, "..", "dist");
+
+/* get full path */
+function getPathFromDist(str) {
+    return path.join(distPath, str);
+}
+
+/* allow calls from anywhere? */
+/* CC BY-SA 4.0 code by "Yashwardhan Pauranik" on https://stackoverflow.com/a/46988108 */
 const corsOptions = {
     origin: "*",
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 };
-
-const port = process.env.PORT || 3000;
-
-const app = express();
-
 app.use(cors(corsOptions)); // Use this after the variable declaration
 
-app.get("/api/open", function (req, res) {
-    const headers = {
-        "Content-Type": "text/event-stream",
-        Connection: "keep-alive",
-        "Cache-Control": "no-cache",
-    };
-    // res.writeHead(200, headers);
-    const str = new Date().toLocaleString();
-    res.json({ str: str });
-    //console.log(req);
+/* make "dist" full path accessible */
+app.use(express.static(distPath));
+
+/* load the built index.html */
+app.get("/", function (req, res) {
+    res.sendFile(getPathFromDist("index.html"));
+});
+
+/* get time now */
+app.get("/api", function (req, res) {
+    const timestamp = Date.now();
+    const json = getResponse(timestamp);
+    res.json(json);
 });
 
 app.get("/api/:date", function (req, res) {
-    /*  */
+    /* get route parameters */
     const paramsObj = req.params;
 
     /* if path is missing date in /api/date */
@@ -40,9 +61,8 @@ app.get("/api/:date", function (req, res) {
         date time string */
 
     const str = paramsObj.date;
-
-    const response = getResponse(str);
-    res.json(response);
+    const json = getResponse(str);
+    res.json(json);
 });
 
-app.listen(port, () => console.log("server is listening on 3000"));
+app.listen(port, () => console.log(`--- server is listening on ${port}`));
