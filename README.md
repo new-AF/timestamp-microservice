@@ -1,6 +1,25 @@
 <div align="center" >
 <img src="./public/preview.png"/>
 </div>
+<p align="center">
+
+<img src="https://img.shields.io/badge/Express-000?logo=express&logoColor=fff&style=for-the-badge" alt="Express.js Badge"/>
+
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=000000" alt="React Badge"/>
+
+<img src="https://img.shields.io/badge/Redux%20Toolkit-764ABC?logo=redux&logoColor=fff&style=for-the-badge" alt="Redux Toolkit Badge"/>
+
+<img src="https://img.shields.io/badge/Node.js-393?logo=nodedotjs&logoColor=fff&style=for-the-badge" alt="Node.js Badge"/>
+
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge" alt="JavaScript Badge"/>
+
+<img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff&style=for-the-badge" alt="CSS3 Badge"/>
+
+<img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite Badge"/>
+
+<img src="https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=000&style=for-the-badge" alt="Render Badge"/>
+
+</p>
 
 # Timestamp microservice
 
