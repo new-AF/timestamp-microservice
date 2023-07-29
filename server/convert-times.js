@@ -1,5 +1,9 @@
 const errorJSON = { error: "Invalid Date" };
 
+function isInvalidDateObj(date) {
+    return date.toString() === "Invalid Date";
+}
+
 /* timestamp to utc date time string */
 export function getUTC(timestamp) {
     const number = Number(timestamp);
@@ -9,7 +13,7 @@ export function getUTC(timestamp) {
 
     const date = new Date(number);
 
-    if (date === null) {
+    if (isInvalidDateObj(date)) {
         return [false, undefined, undefined];
     }
 
@@ -18,20 +22,22 @@ export function getUTC(timestamp) {
 }
 
 /* date time string to timestamp */
-export function getTimestamp(dateString) {
-    const date = new Date(dateString);
-    // console.log({ date });
-    if (date === null) {
+export function getTimestamp(oldDateString) {
+    const date = new Date(oldDateString);
+    // console.log({ date }, typeof date);
+    if (isInvalidDateObj(date)) {
         return [false, undefined, undefined];
     }
 
     const timestampStr = date.getTime();
+
+    /* "2016-12-25" must return
+    Sun, 25 Dec 2016 00:00:00 GMT  */
+    const dateString = date.toUTCString();
     const number = Number(timestampStr);
 
     return [true, number, dateString];
 }
-
-// export default { getTimestamp, getUTC };
 
 /* construct response json */
 export function makeJSON(timestampNumber, timestampStr) {
@@ -52,10 +58,14 @@ export function getResponse(str) {
         return json;
     }
 
-    // console.log("--- input is date string");
-
     /* may be valid date string */
     const [ok, timestampNumber, dateString] = getTimestamp(str);
+    /*     console.log("--- input is date string", {
+        str,
+        ok,
+        timestampNumber,
+        dateString,
+    }); */
     const json = ok ? makeJSON(timestampNumber, dateString) : errorJSON;
     return json;
 }
