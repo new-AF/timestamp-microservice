@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const port = process.env.PORT || 3000;
 
 const tempBaseURL =
-    process.env.hasOwnProperty("MY_SERVER_URL_WITH_PORT") ||
+    process.env.hasOwnProperty("VITE_MY_SERVER_URL_WITH_PORT") ||
     `http://localhost:${port}`;
 
 const baseURL = tempBaseURL.endsWith("/")
