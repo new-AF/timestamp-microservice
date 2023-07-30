@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { prettyPrintJson } from "pretty-print-json";
 import { setInput } from "./timeSlice";
@@ -7,7 +7,6 @@ import logo from "/gears-solid.svg";
 import serverIconPath from "./assets/server-solid.svg";
 
 import "./App.css";
-import store from "./store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { callServer } from "./timeSlice";
 
@@ -15,6 +14,7 @@ function App() {
     const dispatch = useDispatch();
     const [val, setVal] = useState(1);
     const [res, setRes] = useState("");
+    const button = useRef(null);
     const state = useSelector((state) => state["time"]);
     function onChange(event) {
         const text = event.target.value;
@@ -32,22 +32,16 @@ function App() {
         const text = code.textContent;
         dispatch(setInput(text));
     }
+    function onKeyDown(event) {
+        if (event.key.toLowerCase() === "enter") {
+            button.current.click();
+        }
+    }
     /* submit button */
     function submitButtonOnClick(event) {
         dispatch(callServer(state.input));
     }
 
-    useEffect(() => {
-        async function call() {
-            const val = await fetch("http://localhost:3000/api/open");
-            // setRes(JSON.stringify(val));
-            const val2 = await val.json();
-            // console.log(val, val2);
-            setRes(JSON.stringify(val2));
-        }
-
-        call();
-    }, []);
     return (
         <>
             <header id="header" className="global-text-center">
@@ -69,6 +63,7 @@ function App() {
                         id="time-send-input"
                         value={state.input}
                         onChange={onChange}
+                        onKeyDown={onKeyDown}
                     />
                     {/* usage */}
                     <h4 id="time-send-example">Click example usage</h4>
@@ -81,7 +76,11 @@ function App() {
                         </li>
                     </ul>
 
-                    <button id="time-send-submit" onClick={submitButtonOnClick}>
+                    <button
+                        id="time-send-submit"
+                        onClick={submitButtonOnClick}
+                        ref={button}
+                    >
                         Send Request
                     </button>
                 </article>

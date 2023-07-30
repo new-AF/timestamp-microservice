@@ -10,12 +10,24 @@ const { createSlice, createAsyncThunk } = toolkitRaw.default ?? toolkitRaw;
 
 import { getResponse } from "../server/convert-times.js";
 
+/*  */
+export function makeURL(...add) {
+    /* remove leading and trailing "/" */
+    const array = add.map((str) =>
+        str.replace(/^\/+/g, "").replace(/\/+$/g, "")
+    );
+    const str = array.join("/");
+    const res = `${import.meta.env.VITE_MY_SERVER_URL_WITH_PORT}/${str}`;
+
+    return res;
+}
+
 const timestampStr = "1690452662026";
 const json = getResponse(timestampStr);
 
 const callServer = createAsyncThunk("time/callServer", async (str) => {
     /* str is /api/...  */
-    const res = await fetch(`http://localhost:3000${str}`);
+    const res = await fetch(makeURL(str));
     const json = res.json();
     return json;
 });

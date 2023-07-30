@@ -13,6 +13,26 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 3000;
+
+const tempBaseURL =
+    process.env.hasOwnProperty("MY_SERVER_URL_WITH_PORT") ||
+    `http://localhost:${port}`;
+
+const baseURL = tempBaseURL.endsWith("/")
+    ? tempBaseURL.slice(0, tempBaseURL.length)
+    : tempBaseURL;
+
+/* join path s */
+export function makeURL(...add) {
+    /* remove leading and trailing "/" */
+    const array = add.map((str) =>
+        str.replace(/^\/+/g, "").replace(/\/+$/g, "")
+    );
+    const str = array.join("/");
+    const res = `${baseURL}/${str};`;
+
+    return res;
+}
 const app = express();
 
 /* "dist" dir path */
@@ -38,6 +58,8 @@ app.use(express.static(distPath));
 /* load the built index.html */
 app.get("/", function (req, res) {
     res.sendFile(getPathFromDist("index.html"));
+    if (protocol === undefined && hostname === undefined) {
+    }
 });
 
 /* get time now */
