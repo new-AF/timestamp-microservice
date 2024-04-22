@@ -45,7 +45,7 @@ Example:
 
 # Run the App Online
 
-**[https://timestamp-microservice-t7m9.onrender.com/](https://timestamp-microservice-t7m9.onrender.com/)** (May take few seconds to spin up the inactive server)
+**[https://timestamp-microservice-t7m9.onrender.com/](https://timestamp-microservice-t7m9.onrender.com/)** (Will take 30 seconds to spin up the inactive server)
 
 # Build and Run App Locally
 
